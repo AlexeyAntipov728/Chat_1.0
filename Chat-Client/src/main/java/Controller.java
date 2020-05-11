@@ -22,22 +22,21 @@ public class Controller implements Initializable {
     private DataInputStream in;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        try  {
+        try {
             Socket socket = new Socket("localhost", 8080);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
             boolean running = true;
-            while (running) {
+
                 String server = in.readUTF();
-                if(server.equals("_exit_"))
-                    break;
+                if (server.equals("_exit_"))
+                    System.exit(1);
                 else
-                List.getItems().add(server);
-            }
+                    List.getItems().addAll(server);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +63,7 @@ public class Controller implements Initializable {
     public void SendMess() throws IOException {
         if (!textField.getText().equals("")) {
             List.getItems().addAll("LiTe" + getTime() + ": " + textField.getText());
-            out.writeUTF(textField.getText() + "\n");
+            out.writeUTF(textField.getText());
             out.flush();
             textField.requestFocus();
             textField.setText("");

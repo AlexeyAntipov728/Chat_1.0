@@ -20,13 +20,15 @@ public class ServerTest {
 
         out.writeUTF("В чате новенький");
         out.flush();
-
+        String client = in.readUTF();
+        System.out.println(client);
         while (true) {
-            String client = in.readUTF();
-            System.out.println(client);
+
+
             if(client.equals("exit"))
                 break;
             else {
+
                 String server = sc.nextLine();
                 out.writeUTF("Server say:" + server);
             }
