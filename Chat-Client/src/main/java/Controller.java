@@ -30,7 +30,7 @@ public class Controller implements Initializable {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
             boolean running = true;
-
+// вот штука ниже как-то должна работать постоянно, чтобы постить в listView новые сообения от сервера.
                 String server = in.readUTF();
                 if (server.equals("_exit_"))
                     System.exit(1);
