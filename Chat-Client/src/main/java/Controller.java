@@ -31,11 +31,11 @@ public class Controller implements Initializable {
             out = new DataOutputStream(socket.getOutputStream());
             boolean running = true;
 // вот штука ниже как-то должна работать постоянно, чтобы постить в listView новые сообения от сервера.
-                String server = in.readUTF();
-                if (server.equals("_exit_"))
-                    System.exit(1);
-                else
-                    List.getItems().addAll(server);
+//                String server = in.readUTF();
+//                if (server.equals("_exit_"))
+//                    System.exit(1);
+//                else
+//                    List.getItems().addAll(server);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,9 +60,11 @@ public class Controller implements Initializable {
     }
 
 
+
+
     public void SendMess() throws IOException {
         if (!textField.getText().equals("")) {
-            List.getItems().addAll("LiTe" + getTime() + ": " + textField.getText());
+            List.getItems().addAll("LiTe " + getTime() + ": " + textField.getText());
             out.writeUTF(textField.getText());
             out.flush();
             textField.requestFocus();
