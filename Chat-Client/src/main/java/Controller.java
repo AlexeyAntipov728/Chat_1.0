@@ -4,7 +4,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,6 +19,8 @@ public class Controller implements Initializable {
     public TextField textField;
     public ListView<String> List;
     private DataInputStream in;
+    public String nickName;
+    public TextField clientName;
 
 
     @Override
@@ -115,6 +116,11 @@ public class Controller implements Initializable {
 
     public void login(ActionEvent actionEvent) {
         start();
+    }
+
+    public String nickName(ActionEvent actionEvent) {
+        nickName = clientName.getText();
+        return nickName;
     }
 }
 

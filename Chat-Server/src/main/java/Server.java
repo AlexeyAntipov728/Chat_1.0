@@ -27,6 +27,9 @@ public class Server {
                 cnt++;
                 clients.add(client); // can produce CME (concurrent modification exception)
                // System.out.println(client.getNickName() + " accepted!");
+//                Controller controller = new Controller();
+//
+//                System.out.println(controller.nickName + " join chat");
                 new Thread(client).start();
 
             }

@@ -22,6 +22,10 @@
         <menus>
             <Menu mnemonicParsing="false" text="Main">
                 <items>
+               <MenuItem id="NickName" mnemonicParsing="false" text="Nickname">
+                  <graphic>
+                     <TextField fx:id="clientName" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" promptText=" Введи nickname" />
+                  </graphic></MenuItem>
                     <MenuItem mnemonicParsing="false" onAction="#login" text="Login" />
                     <MenuItem fx:id="Close" mnemonicParsing="false" onAction="#Exit" text="Close" />
                 </items>
