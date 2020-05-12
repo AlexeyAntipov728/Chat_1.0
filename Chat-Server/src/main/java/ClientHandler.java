@@ -20,9 +20,9 @@ public class ClientHandler implements Runnable {
 
     public void broadCastMessage(String message) throws IOException {
         for (ClientHandler client : Server.getClients()) {
-            //if (!client.equals(this)) {
-            client.sendMessage(message);
-            // }
+            if (!client.equals(this)) {
+                client.sendMessage(message);
+            }
         }
     }
 

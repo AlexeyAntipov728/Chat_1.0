@@ -25,21 +25,8 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        try {
-            Socket socket = new Socket("localhost", 8080);
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-            boolean running = true;
-// вот штука ниже как-то должна работать постоянно, чтобы постить в listView новые сообения от сервера.
-//                String server = in.readUTF();
-//                if (server.equals("_exit_"))
-//                    System.exit(1);
-//                else
-//                    List.getItems().addAll(server);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        start();
 
         List.setCellFactory(param -> new ListCell<String>() {
             @Override
@@ -48,6 +35,7 @@ public class Controller implements Initializable {
                 if (empty || item == null) {
                     setGraphic(null);
                     setText(null);
+
                 } else {
                     setMinWidth(USE_COMPUTED_SIZE);
                     setMaxWidth(USE_COMPUTED_SIZE);
@@ -59,21 +47,16 @@ public class Controller implements Initializable {
         });
     }
 
-
-
-
     public void SendMess() throws IOException {
+
         if (!textField.getText().equals("")) {
             List.getItems().addAll("LiTe " + getTime() + ": " + textField.getText());
             out.writeUTF(textField.getText());
             out.flush();
             textField.requestFocus();
             textField.setText("");
-
-
         }
     }
-
 
     public String getTime() {
         return new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -95,8 +78,43 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 
-    public void Exit(ActionEvent actionEvent) {
+    public void Exit(ActionEvent actionEvent) throws IOException {
+        String msgToExit = "_exit_";
+        out.writeUTF(msgToExit);
         System.exit(0);
+    }
+
+    public void start() {
+        try {
+            Socket socket = new Socket("localhost", 8080);
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        String server = in.readUTF();
+                        if (server.equalsIgnoreCase("/exit")) {
+                            break;
+                        }
+                        List.getItems().addAll(server);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
+    }
+
+    public void login(ActionEvent actionEvent) {
+        start();
     }
 }
 

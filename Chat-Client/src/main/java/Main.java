@@ -4,20 +4,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import java.io.FileInputStream;
 
 
 public class Main extends Application {
 
 
-    public static void main(String[] args)  {
-
+    public static void main(String[] args) {
         launch(args);
     }
 
     public void start(Stage primaryStage) throws Exception {
-
-       // Socket socket = new Socket("localhost", 8080);
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("LiTe Chat");
