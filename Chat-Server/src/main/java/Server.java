@@ -22,7 +22,7 @@ public class Server {
             System.out.println("Server started!");
             while (running) {
                 Socket socket = srv.accept();
-                System.out.println("client in");
+                System.out.println("client " + cnt);
                 ClientHandler client = new ClientHandler(socket);
                 cnt++;
                 clients.add(client); // can produce CME (concurrent modification exception)
