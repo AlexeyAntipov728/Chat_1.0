@@ -1,9 +1,12 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,10 +21,10 @@ public class Controller implements Initializable {
     private static DataOutputStream out;
     public TextField textField;
     public ListView<String> List;
-    private DataInputStream in;
     public String nickName;
     public TextField clientName;
-
+    private DataInputStream in;
+    public ListView<String> Users;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,13 +54,15 @@ public class Controller implements Initializable {
     public void SendMess() throws IOException {
 
         if (!textField.getText().equals("")) {
-            List.getItems().addAll("LiTe " + getTime() + ": " + textField.getText());
-            out.writeUTF(textField.getText());
+            List.getItems().addAll("[" + nickName + "] in " + getTime() + ": " + textField.getText());
+            out.writeUTF( textField.getText());
             out.flush();
             textField.requestFocus();
             textField.setText("");
         }
     }
+//    "[" + nickName + "] in " + getTime() + ": " +
+//    "[ " + nickName + " ] in "
 
     public String getTime() {
         return new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -84,30 +89,36 @@ public class Controller implements Initializable {
         out.writeUTF(msgToExit);
         System.exit(0);
     }
+    public void closeApp() throws IOException {
+        String msgToExit = "_exit_";
+        out.writeUTF(msgToExit);
+    }
 
     public void start() {
         try {
-            Socket socket = new Socket("localhost", 8080);
+            Socket socket = new Socket("192.168.1.29", 8080);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        String server = in.readUTF();
-                        if (server.equalsIgnoreCase("/exit")) {
-                            break;
-                        }
-                        List.getItems().addAll(server);
+        Thread t = new Thread(() -> {
+            try {
+
+                while (true) {
+                    String server = in.readUTF();
+                    if (server.equalsIgnoreCase("/exit")) {
+                        break;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    List.getItems().addAll(server);
+                    if (server.startsWith("nickname")) {
+                        String[] clientName = server.split("/");
+                        Users.getItems().addAll(clientName);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         t.setDaemon(true);
@@ -118,10 +129,11 @@ public class Controller implements Initializable {
         start();
     }
 
-    public String nickName(ActionEvent actionEvent) {
+    public void enterNickName(ActionEvent actionEvent) throws IOException {
         nickName = clientName.getText();
-        return nickName;
+        out.writeUTF("nickname/" + nickName);
     }
+
 }
 
 

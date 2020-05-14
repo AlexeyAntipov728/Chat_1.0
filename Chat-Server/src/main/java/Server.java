@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Server {
     private final static int PORT = 8080;
-    private final static String HOST = "localhost";
+    private final static String HOST = "192.168.1.29";
     private static int cnt = 1;
 
     private boolean running;
@@ -22,14 +22,11 @@ public class Server {
             System.out.println("Server started!");
             while (running) {
                 Socket socket = srv.accept();
-                System.out.println("client " + cnt);
-                ClientHandler client = new ClientHandler(socket);
+                ClientHandler client = new ClientHandler(socket, "client #" + cnt);
                 cnt++;
-                clients.add(client); // can produce CME (concurrent modification exception)
-               // System.out.println(client.getNickName() + " accepted!");
-//                Controller controller = new Controller();
-//
-//                System.out.println(controller.nickName + " join chat");
+                clients.add(client);
+                System.out.println(client.getNickName() + " accepted!");
+
                 new Thread(client).start();
 
             }

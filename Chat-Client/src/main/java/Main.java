@@ -1,11 +1,18 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.EventListener;
 
 
 public class Main extends Application {
@@ -24,6 +31,13 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 550, 750));
         primaryStage.show();
         primaryStage.setResizable(false);
-
+        primaryStage.setOnCloseRequest(we -> {
+            Controller controller = new Controller();
+            try {
+                controller.closeApp();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

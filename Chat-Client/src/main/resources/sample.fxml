@@ -13,9 +13,9 @@
 
     <TextField fx:id="textField" alignment="TOP_LEFT" layoutX="14.0" layoutY="618.0" maxHeight="77.0" maxWidth="454.0" onAction="#Enter" prefHeight="77.0" prefWidth="454.0" promptText="Текст сообщения" scaleShape="false" />
     <Button layoutX="14.0" layoutY="704.0" mnemonicParsing="false" onAction="#Send" prefHeight="32.0" prefWidth="106.0" text="Отправить" />
-    <VBox fillWidth="false" layoutX="14.0" layoutY="36.0" prefHeight="572.0" prefWidth="454.0">
+    <VBox fillWidth="false" layoutX="14.0" layoutY="36.0" prefHeight="572.0" prefWidth="327.0">
         <children>
-            <ListView fx:id="List" editable="true" opacity="0.85" prefHeight="577.0" prefWidth="456.0" />
+            <ListView fx:id="List" editable="true" opacity="0.85" prefHeight="572.0" prefWidth="325.0" />
         </children>
     </VBox>
     <MenuBar layoutX="14.0" layoutY="1.0">
@@ -24,7 +24,7 @@
                 <items>
                <MenuItem id="NickName" mnemonicParsing="false" text="Nickname">
                   <graphic>
-                     <TextField fx:id="clientName" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" promptText=" Введи nickname" />
+                     <TextField fx:id="clientName" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" onAction="#enterNickName" promptText=" Введи nickname" />
                   </graphic></MenuItem>
                     <MenuItem mnemonicParsing="false" onAction="#login" text="Login" />
                     <MenuItem fx:id="Close" mnemonicParsing="false" onAction="#Exit" text="Close" />
@@ -42,5 +42,9 @@
             </Menu>
         </menus>
     </MenuBar>
+   <VBox layoutX="349.0" layoutY="36.0" prefHeight="572.0" prefWidth="199.0">
+      <children>
+         <ListView fx:id="Users" opacity="0.85" prefHeight="581.0" prefWidth="199.0" />
+      </children></VBox>
 
 </AnchorPane>
