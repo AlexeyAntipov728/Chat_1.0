@@ -5,8 +5,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -96,7 +94,7 @@ public class Controller implements Initializable {
 
     public void start() {
         try {
-            Socket socket = new Socket("192.168.1.29", 8080);
+            Socket socket = new Socket("localhost", 8087);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
@@ -112,9 +110,10 @@ public class Controller implements Initializable {
                         break;
                     }
                     List.getItems().addAll(server);
-                    if (server.startsWith("nickname")) {
-                        String[] clientName = server.split("/");
-                        Users.getItems().addAll(clientName);
+                    if (server.startsWith("///")) {
+                        String[] clientName = server.split("///");
+//                        Users.getItems().addAll(clientName[1]);  тут получаю от сервера сообщение со стартом ///, т.е. сообщение в котором никнеймы пользователей , чтобы добавить их
+//                        в список пользователей в окне клиента. Они добавляются, но после этого вылетает ошибка на стороне клиента.
                     }
                 }
             } catch (Exception e) {

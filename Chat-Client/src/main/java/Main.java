@@ -1,18 +1,11 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
-import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.EventListener;
 
 
 public class Main extends Application {

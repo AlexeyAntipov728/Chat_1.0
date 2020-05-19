@@ -4,8 +4,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 
 public class Server {
-    private final static int PORT = 8080;
-    private final static String HOST = "192.168.1.29";
+    private final static int PORT = 8087;
+    private final static String HOST = "localhost";
     private static int cnt = 1;
 
     private boolean running;
@@ -28,6 +28,7 @@ public class Server {
                 System.out.println(client.getNickName() + " accepted!");
 
                 new Thread(client).start();
+
 
             }
         } catch (Exception e) {

@@ -68,7 +68,7 @@ public class ClientHandler implements Runnable {
                     if (clientMessage.startsWith("nickname")) {
                         String[] clientName = clientMessage.split("/");
                         setNickName("[" + clientName[1] + "]");
-//                        out.writeUTF("///" + nickName);
+//                        out.writeUTF("///" + nickName);   тут пересылаю никнейм, чтобы добавить его в лист пользователей на стороне клиента.
                     }
 
                     if (clientMessage.equals("_exit_")) {
