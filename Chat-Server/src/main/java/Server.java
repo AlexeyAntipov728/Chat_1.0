@@ -4,20 +4,16 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 
 public class Server {
-    private final static int PORT = 8087;
+    private final static int PORT = 8080;
     private final static String HOST = "localhost";
     private static int cnt = 1;
-
-    private boolean running;
     private static ConcurrentLinkedDeque<ClientHandler> clients;
-
-    public static ConcurrentLinkedDeque<ClientHandler> getClients() {
-        return clients;
-    }
+    private boolean running;
 
     public Server(int port) {
         running = true;
         clients = new ConcurrentLinkedDeque<>();
+
         try (ServerSocket srv = new ServerSocket(PORT)) {
             System.out.println("Server started!");
             while (running) {
@@ -34,6 +30,10 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static ConcurrentLinkedDeque<ClientHandler> getClients() {
+        return clients;
     }
 
     public static void main(String[] args) {
