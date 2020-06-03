@@ -4,47 +4,55 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane prefHeight="750.0" prefWidth="550.0" style="-fx-background-image: url(..Images/backgroundImage.png;)" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-    <ImageView fx:id="Background" disable="true" fitHeight="750.0" fitWidth="550.0" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false">
-<!--        <image>-->
-<!--            <Image url="@Images/backgroundImage.png" />-->
-<!--        </image>-->
+<AnchorPane prefHeight="750.0" prefWidth="550.0" style="-fx-background-image: url(..Images/backgroundImage.png;)"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller">
+    <ImageView fx:id="Background" disable="true" fitHeight="750.0" fitWidth="550.0" nodeOrientation="INHERIT"
+               pickOnBounds="true" smooth="false">
+        <!--        <image>-->
+        <!--            <Image url="@Images/backgroundImage.png" />-->
+        <!--        </image>-->
     </ImageView>
 
-    <TextField fx:id="textField" alignment="TOP_LEFT" layoutX="14.0" layoutY="618.0" maxHeight="77.0" maxWidth="454.0" onAction="#Enter" prefHeight="77.0" prefWidth="454.0" promptText="Текст сообщения" scaleShape="false" />
-    <Button layoutX="14.0" layoutY="704.0" mnemonicParsing="false" onAction="#Send" prefHeight="32.0" prefWidth="106.0" text="Отправить" />
+    <TextField fx:id="textField" alignment="TOP_LEFT" layoutX="14.0" layoutY="618.0" maxHeight="77.0" maxWidth="454.0"
+               onAction="#Enter" prefHeight="77.0" prefWidth="454.0" promptText="Текст сообщения" scaleShape="false"/>
+    <Button layoutX="14.0" layoutY="704.0" mnemonicParsing="false" onAction="#Send" prefHeight="32.0" prefWidth="106.0"
+            text="Отправить"/>
     <VBox fillWidth="false" layoutX="14.0" layoutY="36.0" prefHeight="572.0" prefWidth="327.0">
         <children>
-            <ListView fx:id="List" editable="true" opacity="0.85" prefHeight="572.0" prefWidth="325.0" />
+            <ListView fx:id="List" editable="true" opacity="0.85" prefHeight="572.0" prefWidth="325.0"/>
         </children>
     </VBox>
     <MenuBar layoutX="14.0" layoutY="1.0">
         <menus>
             <Menu mnemonicParsing="false" text="Main">
                 <items>
-               <MenuItem id="NickName" mnemonicParsing="false" text="Nickname">
-                  <graphic>
-                     <TextField fx:id="clientName" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" onAction="#enterNickName" promptText=" Введи nickname" />
-                  </graphic></MenuItem>
-                    <MenuItem mnemonicParsing="false" onAction="#login" text="Login" />
-                    <MenuItem mnemonicParsing="false" onAction="#Exit" text="Close" />
+                    <MenuItem id="NickName" mnemonicParsing="false" text="Nickname">
+                        <graphic>
+                            <TextField fx:id="clientName" alignment="TOP_RIGHT" editable="false"
+                                       nodeOrientation="LEFT_TO_RIGHT"/>
+                        </graphic>
+                    </MenuItem>
+                    <MenuItem mnemonicParsing="false" onAction="#login" text="Login"/>
+                    <MenuItem mnemonicParsing="false" onAction="#Exit" text="Close"/>
                 </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="Change Background" onAction="#ChangeBackground" />
+                    <MenuItem mnemonicParsing="false" onAction="#ChangeBackground" text="Change Background"/>
                 </items>
             </Menu>
             <Menu mnemonicParsing="false" onAction="#showAbout" text="About">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem mnemonicParsing="false" text="About"/>
                 </items>
             </Menu>
         </menus>
     </MenuBar>
-   <VBox layoutX="349.0" layoutY="36.0" prefHeight="572.0" prefWidth="199.0">
-      <children>
-         <ListView fx:id="Users" opacity="0.85" prefHeight="581.0" prefWidth="199.0" />
-      </children></VBox>
+    <VBox layoutX="349.0" layoutY="36.0" prefHeight="572.0" prefWidth="199.0">
+        <children>
+            <ListView fx:id="Users" opacity="0.85" prefHeight="581.0" prefWidth="199.0"/>
+        </children>
+    </VBox>
 
 </AnchorPane>

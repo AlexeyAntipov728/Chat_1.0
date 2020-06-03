@@ -11,16 +11,14 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-
     public static void main(String[] args) {
         launch(args);
     }
 
     public void start(Stage primaryStage) throws Exception {
-
+        Image image = new Image(new FileInputStream("Chat-Client/src/main/resources/Images/chatIcon.png"));
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("LiTe Chat");
-        Image image = new Image(new FileInputStream("Chat-Client/src/main/resources/Images/chatIcon.png"));
         primaryStage.getIcons().add(image);
         primaryStage.setScene(new Scene(root, 550, 750));
         primaryStage.show();

@@ -19,13 +19,13 @@ public class Server {
             while (running) {
                 Socket socket = srv.accept();
                 ClientHandler client = new ClientHandler(socket, "client #" + cnt);
+
                 cnt++;
                 clients.add(client);
+                client.dbConnect();
                 System.out.println(client.getNickName() + " accepted!");
 
                 new Thread(client).start();
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
