@@ -10,13 +10,13 @@ public class Client {
     private DataInputStream in;
 
     public static void main(String[] args) {
-        try(Socket socket = new Socket("localhost", 8080)){
+        try (Socket socket = new Socket("localhost", 8080)) {
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             boolean running = true;
             Scanner cin = new Scanner(System.in);
 
-            Thread thread = new Thread(()->{
+            Thread thread = new Thread(() -> {
                 while (running) {
                     String message = null;
                     try {
@@ -35,7 +35,7 @@ public class Client {
             thread.setDaemon(true);
             thread.start();
 
-            while(running) {
+            while (running) {
                 String line = cin.nextLine();
                 if (line.equals("exit")) {
                     out.writeUTF("_exit_");

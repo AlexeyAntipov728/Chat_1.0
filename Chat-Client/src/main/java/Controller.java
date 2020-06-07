@@ -15,6 +15,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Controller implements Initializable {
     private static Socket socket;
@@ -27,12 +28,40 @@ public class Controller implements Initializable {
     public ListView<String> Users;
     public ImageView Background;
     public TextField login = new TextField();
+    public InputStream historyIn;
+    public OutputStream historyOut;
+    public File file;
+    public Label UserNAME;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //        start();
+        try {
+            Socket socket = new Socket("localhost", 8080);
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        file = new File("Chat-Client/src/main/resources/History/History.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            historyIn = new FileInputStream("Chat-Client/src/main/resources/History/History.txt");
+            historyOut = new FileOutputStream("Chat-Client/src/main/resources/History/History.txt", true);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(file.exists());
+        System.out.println(file.getAbsolutePath());
+
 
         List.setCellFactory(param -> new ListCell<String>() {
             @Override
@@ -70,7 +99,10 @@ public class Controller implements Initializable {
 
     public void SendMess() throws IOException {
         if (!textField.getText().equals("")) {
+
             List.getItems().addAll("[" + nickName + "] in " + getTime() + ": " + textField.getText());
+            String toHistory = "[" + nickName + "] in " + getTime() + ": " + textField.getText() + "\n";
+            historyOut.write(toHistory.getBytes());
             out.writeUTF(textField.getText());
             out.flush();
             textField.requestFocus();
@@ -84,6 +116,14 @@ public class Controller implements Initializable {
 
     public void Enter(ActionEvent actionEvent) throws IOException {
         SendMess();
+    }
+
+    public void getHistory() throws IOException {
+
+        Scanner in = new Scanner(file);
+        while (in.hasNext()) {
+            List.getItems().addAll(in.nextLine());
+        }
     }
 
     public void Send(ActionEvent actionEvent) throws IOException {
@@ -111,9 +151,9 @@ public class Controller implements Initializable {
     }
 
     public void start() {
-
         Thread t = new Thread(() -> {
             try {
+                getHistory();
                 while (true) {
                     String server = in.readUTF();
                     if (server.equalsIgnoreCase("/exit")) {
@@ -125,7 +165,10 @@ public class Controller implements Initializable {
 
                         Users.getItems().add(nicks[1]);
 
-                    } else List.getItems().addAll(server);
+                    } else {
+                        List.getItems().addAll(server);
+                        historyOut.write(server.getBytes());
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,16 +176,10 @@ public class Controller implements Initializable {
         });
         t.setDaemon(true);
         t.start();
+
     }
 
     public void login(ActionEvent actionEvent) throws IOException {
-        try {
-            Socket socket = new Socket("localhost", 8080);
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         Stage authStage = new Stage();
         Image image = new Image(new FileInputStream("Chat-Client/src/main/resources/Images/chatIcon.png"));
@@ -150,7 +187,7 @@ public class Controller implements Initializable {
         authStage.setMaxHeight(250);
         authStage.setMaxWidth(400);
         authStage.getIcons().add(image);
-        authStage.initModality(Modality.WINDOW_MODAL);
+        authStage.initModality(Modality.APPLICATION_MODAL);
         authStage.setY(350);
         authStage.setX(750);
 
@@ -177,8 +214,12 @@ public class Controller implements Initializable {
             public void handle(ActionEvent event) {
                 try {
                     out.writeUTF("auth/" + login.getText() + " " + password.getText());
+                    nickName = login.getText();
+                    UserNAME.setText(nickName);
                     login.setText("");
                     password.setText("");
+                    authStage.close();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -198,11 +239,12 @@ public class Controller implements Initializable {
                 while (true) {
                     String authOk = in.readUTF();
                     if (authOk.equals("authok")) {
-                        clientName.setText(login.getText());
-                        authStage.close();
+                        List.getItems().add("Welcome " + nickName);
                         start();
+                        break;
                     }
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -216,6 +258,7 @@ public class Controller implements Initializable {
         Background.setImage(image);
     }
 }
+
 
 
 

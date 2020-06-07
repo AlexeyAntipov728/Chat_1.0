@@ -27,12 +27,6 @@
         <menus>
             <Menu mnemonicParsing="false" text="Main">
                 <items>
-                    <MenuItem id="NickName" mnemonicParsing="false" text="Nickname">
-                        <graphic>
-                            <TextField fx:id="clientName" alignment="TOP_RIGHT" editable="false"
-                                       nodeOrientation="LEFT_TO_RIGHT"/>
-                        </graphic>
-                    </MenuItem>
                     <MenuItem mnemonicParsing="false" onAction="#login" text="Login"/>
                     <MenuItem mnemonicParsing="false" onAction="#Exit" text="Close"/>
                 </items>
@@ -54,5 +48,6 @@
             <ListView fx:id="Users" opacity="0.85" prefHeight="581.0" prefWidth="199.0"/>
         </children>
     </VBox>
+    <Label fx:id="UserNAME" layoutX="348.0" layoutY="5.0" prefHeight="17.0" prefWidth="199.0" text="Username"/>
 
 </AnchorPane>

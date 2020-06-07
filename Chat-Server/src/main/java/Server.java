@@ -1,5 +1,7 @@
+import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 
@@ -24,6 +26,10 @@ public class Server {
                 clients.add(client);
                 client.dbConnect();
                 System.out.println(client.getNickName() + " accepted!");
+//                Scanner scanner = new Scanner(System.in);
+//                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+//                String test = scanner.nextLine();
+//                out.writeUTF("Server " + test);
 
                 new Thread(client).start();
             }
