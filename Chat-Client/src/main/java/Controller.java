@@ -38,7 +38,7 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            Socket socket = new Socket("localhost", 8080);
+            socket = new Socket("localhost", 8080);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
@@ -214,16 +214,28 @@ public class Controller implements Initializable {
             public void handle(ActionEvent event) {
                 try {
                     out.writeUTF("auth/" + login.getText() + " " + password.getText());
-                    nickName = login.getText();
-                    UserNAME.setText(nickName);
-                    login.setText("");
-                    password.setText("");
-                    authStage.close();
+                    while (true) {
+                        String authOk = in.readUTF();
+                        if (authOk.equals("authok")) {
+                            List.getItems().add("Welcome " + nickName);
+                            nickName = login.getText();
+                            UserNAME.setText(nickName);
+                            login.setText("");
+                            password.setText("");
+                            authStage.close();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                            break;
+                        }
+                    }
+                    start();
+                    } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-            }
+
+
+
+                }
+
         });
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.getChildren().add(login);
@@ -233,24 +245,24 @@ public class Controller implements Initializable {
         authStage.setScene(authScene);
         authStage.setResizable(false);
         authStage.show();
-        Thread t1 = new Thread(() -> {
-            try {
-
-                while (true) {
-                    String authOk = in.readUTF();
-                    if (authOk.equals("authok")) {
-                        List.getItems().add("Welcome " + nickName);
-                        start();
-                        break;
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        t1.setDaemon(true);
-        t1.start();
+//        Thread t1 = new Thread(() -> {
+//            try {
+//
+//                while (true) {
+//                    String authOk = in.readUTF();
+//                    if (authOk.equals("authok")) {
+//                        List.getItems().add("Welcome " + nickName);
+//                        start();
+//                        break;
+//                    }
+//                }
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        t1.setDaemon(true);
+//        t1.start();
     }
 
     public void ChangeBackground(ActionEvent actionEvent) throws FileNotFoundException {

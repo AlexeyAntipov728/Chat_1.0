@@ -26,10 +26,10 @@ public class Server {
                 clients.add(client);
                 client.dbConnect();
                 System.out.println(client.getNickName() + " accepted!");
-//                Scanner scanner = new Scanner(System.in);
-//                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-//                String test = scanner.nextLine();
-//                out.writeUTF("Server " + test);
+                Scanner scanner = new Scanner(System.in);
+                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                String test = scanner.nextLine();
+                out.writeUTF("Server " + test);
 
                 new Thread(client).start();
             }
